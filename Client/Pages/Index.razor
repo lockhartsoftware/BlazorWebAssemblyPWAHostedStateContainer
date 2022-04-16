@@ -1,0 +1,21 @@
+﻿@page "/"
+
+@inject Services.IStateService StateService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (StateService.Data != "")
+{
+    <h2>
+        Selected Canton:
+        <span style="color:forestgreen; font-weight:800">
+            @StateService.Data
+        </span>
+    </h2>
+}

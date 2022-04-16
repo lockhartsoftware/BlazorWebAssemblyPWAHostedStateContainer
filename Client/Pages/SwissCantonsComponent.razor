@@ -1,0 +1,79 @@
+﻿@page "/swiss-cantons"
+
+@inject Services.IStateService StateService
+
+<h3>Cantons in Switzerland</h3>
+
+<EditForm Model="@cantons">
+    <div class="form-group row">
+        <label for="canton-select" class="col-form-label col-sm-1">
+            Canton
+        </label>
+        <div class="col-sm-4">
+            <InputSelect id="canton-select" @bind-Value="StateService.Data" class="form-control">
+                <option value="" selected>Select a Canton</option>
+                @foreach (var canton in cantons)
+                {
+                    <option value="@canton.Name">@canton.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+</EditForm>
+
+@if (StateService.Data != "")
+{
+    <label>
+        Selected Canton: <span style="color:forestgreen; font-weight:800">@StateService.Data</span>
+    </label>
+}
+
+@code {
+    IEnumerable<Canton> cantons;
+
+    protected override void OnInitialized()
+    {
+        StateService.OnChange += StateHasChanged;
+
+        cantons = new List<Canton>
+        {
+            new Canton{Id=1, Name="Aargau"},
+            new Canton{Id=2, Name="Appenzell Ausserrhoden"},
+            new Canton{Id=3, Name="Appenzell Innerrhoden"},
+            new Canton{Id=4, Name="Basel-Landschaft"},
+            new Canton{Id=5, Name="Basel-Stadt"},
+            new Canton{Id=6, Name="Bern"},
+            new Canton{Id=7, Name="Fribourg"},
+            new Canton{Id=8, Name="Geneva"},
+            new Canton{Id=9, Name="Glarus"},
+            new Canton{Id=10, Name="Graubünden"},
+            new Canton{Id=11, Name="Jura"},
+            new Canton{Id=12, Name="Lucerne"},
+            new Canton{Id=13, Name="Neuchâtel"},
+            new Canton{Id=14, Name="Nidwalden"},
+            new Canton{Id=15, Name="Obwalden"},
+            new Canton{Id=16, Name="Schaffhausen"},
+            new Canton{Id=17, Name="Schwyz"},
+            new Canton{Id=18, Name="Solothurn"},
+            new Canton{Id=19, Name="St. Gallen"},
+            new Canton{Id=20, Name="Thurgau"},
+            new Canton{Id=21, Name="Ticino"},
+            new Canton{Id=22, Name="Uri"},
+            new Canton{Id=23, Name="Valais"},
+            new Canton{Id=24, Name="Vaud"},
+            new Canton{Id=25, Name="Zug"},
+            new Canton{Id=25, Name="Zürich"}
+        };
+    }
+
+    protected void Dispose()
+    {
+        StateService.OnChange -= StateHasChanged;
+    }
+
+    public class Canton
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}
